@@ -1,0 +1,10 @@
+{
+  "name": "bieleckim/naivechain",
+  "require": {},
+  "require-dev": {
+    "phpunit/phpunit": "7.0.2"
+  },
+  "autoload": {
+    "psr-4": { "Naivechain\\": "src/" }
+  }
+}
