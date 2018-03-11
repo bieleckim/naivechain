@@ -58,6 +58,11 @@ class Block
         $this->data = $data;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return Block
+     */
     public static function createFromArray(array $array): Block
     {
         return new static(
