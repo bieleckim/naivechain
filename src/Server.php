@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Naivechain;
 
 /**
@@ -41,7 +43,10 @@ class Server
         $this->host = $host;
         $this->port = $port;
     }
-    
+
+    /**
+     * Run socket server
+     */
     public function run(): void
     {
         $this->socket = stream_socket_server('tcp://'. $this->host . ':' . $this->port);
@@ -55,12 +60,18 @@ class Server
         fclose($this->socket);
     }
 
-    private function handle()
+    /**
+     * Handle a socket connection
+     */
+    private function handle(): void
     {
         $request = $this->getRequest();
         var_export($request);
     }
 
+    /**
+     * @return array
+     */
     private function getRequest(): array
     {
         return json_decode(fread($this->connection, 1024), true);

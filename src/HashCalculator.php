@@ -56,18 +56,4 @@ class HashCalculator
             $this->index . $this->previousHash . $this->timestamp->getTimestamp() . $this->data
         );
     }
-
-    /**
-     * @param Block $block
-     * @return HashCalculator
-     */
-    public static function createFromBlock(Block $block): HashCalculator
-    {
-        return new static(
-            $block->getIndex(),
-            $block->getPreviousHash(),
-            $block->getTimestamp(),
-            $block->getData()
-        );
-    }
 }
