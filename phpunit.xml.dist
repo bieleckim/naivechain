@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <phpunit bootstrap="./vendor/autoload.php">
+    <php>
+        <env name="HOST" value="127.0.0.1"/>
+        <env name="PORT" value="8000"/>
+    </php>
     <testsuites>
         <testsuite name="The project's test suite">
             <directory>./tests</directory>

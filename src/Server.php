@@ -50,13 +50,9 @@ class Server
     public function run(): void
     {
         $this->socket = stream_socket_server('tcp://'. $this->host . ':' . $this->port);
-
-        while (true) {
-            $this->connection = stream_socket_accept($this->socket);
-            $this->handle();
-            fclose($this->connection);
-        }
-
+        $this->connection = stream_socket_accept($this->socket);
+        $this->handle();
+        fclose($this->connection);
         fclose($this->socket);
     }
 
@@ -69,10 +65,7 @@ class Server
         var_export($request);
     }
 
-    /**
-     * @return array
-     */
-    private function getRequest(): array
+    private function getRequest()
     {
         return json_decode(fread($this->connection, 1024), true);
     }
