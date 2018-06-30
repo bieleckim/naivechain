@@ -55,7 +55,6 @@ class Server
     private function handle(): void
     {
         $data = fread($this->connection, 1024);
-        echo "DATA: $data" . PHP_EOL;
 
         if (strpos($data, 'ADD_PEER') === 0) {
             list(, $peer) = explode(' ', $data);
