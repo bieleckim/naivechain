@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Naivechain;
 
-/**
- * Class Server
- * @package Naivechain
- */
 class Server
 {
     /**
@@ -33,40 +29,42 @@ class Server
     private $connection;
 
     /**
-     * Server constructor.
-     *
-     * @param string $host
-     * @param int $port
+     * @var array
      */
+    private $peers = [];
+
     public function __construct(string $host, int $port)
     {
         $this->host = $host;
         $this->port = $port;
     }
 
-    /**
-     * Run socket server
-     */
     public function run(): void
     {
         $this->socket = stream_socket_server('tcp://'. $this->host . ':' . $this->port);
-        $this->connection = stream_socket_accept($this->socket);
-        $this->handle();
-        fclose($this->connection);
+
+        while (true) {
+            $this->connection = stream_socket_accept($this->socket);
+            $this->handle();
+            fclose($this->connection);
+        }
+
         fclose($this->socket);
     }
 
-    /**
-     * Handle a socket connection
-     */
     private function handle(): void
     {
-        $request = $this->getRequest();
-        var_export($request);
-    }
+        $data = fread($this->connection, 1024);
+        echo "DATA: $data" . PHP_EOL;
 
-    private function getRequest()
-    {
-        return json_decode(fread($this->connection, 1024), true);
+        if (strpos($data, 'ADD_PEER') === 0) {
+            list(, $peer) = explode(' ', $data);
+            $this->peers[] = $peer;
+            fwrite($this->connection, 'PEER_ADDED ' . $peer);
+        }
+
+        if (strpos($data, 'GET_PEERS') === 0) {
+            fwrite($this->connection, implode(' ', $this->peers));
+        }
     }
 }

@@ -9,12 +9,51 @@ use PHPUnit\Framework\TestCase;
 class ServerTest extends TestCase
 {
     /**
+     * @see stream_socket_client
+     * @var resource
+     */
+    private $socket;
+
+    private static $peers = [];
+
+    public function setUp(): void
+    {
+        $this->socket = stream_socket_client('tcp://127.0.0.1:1234');
+    }
+
+    /**
      * @test
      */
-    public function canMakeConnection()
+    public function canMakeConnection(): void
     {
-        $socket = stream_socket_client('tcp://127.0.0.1:1234');
-        $this->assertEquals('stream', get_resource_type($socket));
-        stream_socket_shutdown($socket, STREAM_SHUT_RDWR);
+        $this->assertEquals('stream', get_resource_type($this->socket));
+    }
+
+    /**
+     * @test
+     */
+    public function canAddPeer(): void
+    {
+        $peer = '127.0.0.1:1235';
+        static::$peers[] = $peer;
+
+        fwrite($this->socket, 'ADD_PEER ' . $peer);
+        $response = fread($this->socket,1024);
+        $this->assertEquals('PEER_ADDED ' . $peer, $response);
+    }
+
+    /**
+     * @test
+     */
+    public function canGetPeers(): void
+    {
+        fwrite($this->socket, 'GET_PEERS');
+        $response = fread($this->socket,1024);
+        $this->assertEquals(implode(' ', static::$peers), $response);
+    }
+
+    public function tearDown(): void
+    {
+        stream_socket_shutdown($this->socket, STREAM_SHUT_RDWR);
     }
 }
