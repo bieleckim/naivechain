@@ -16,14 +16,16 @@ class QueryResolver
         $this->queries = $queries;
     }
 
-    public function resolve(string $request): void
+    public function resolve(string $request): string
     {
         list($queryName, $payload) = explode(' ', $request);
 
         foreach ($this->queries as $query) {
             if ($query->getName() === $queryName) {
-                $query->run($payload);
+                return $query->run($payload);
             }
         }
+
+        return 'UNDEFINED_QUERY';
     }
 }

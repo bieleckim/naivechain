@@ -19,6 +19,7 @@ class QueryResolverTest extends TestCase
         $queryMock = $this->createMock(Query::class);
         $queryName = 'sample';
         $queryPayload = 'payload';
+        $queryResponse = 'response';
 
         $queryMock
             ->method('getName')
@@ -27,12 +28,19 @@ class QueryResolverTest extends TestCase
         $queryMock
             ->expects($this->once())
             ->method('run')
-            ->with($queryPayload);
+            ->with($queryPayload)
+            ->willReturn($queryResponse);
 
         $resolver = new QueryResolver([
             $queryMock
         ]);
 
-        $resolver->resolve($queryName . ' ' . $queryPayload);
+        $this->assertEquals($queryResponse, $resolver->resolve($queryName . ' ' . $queryPayload));
+    }
+
+    public function shouldReturnUndefinedQueryWhenCanNotResolveQuery(): void
+    {
+        $resolver = new QueryResolver([]);
+        $this->assertEquals('UNDEFINED_QUERY', $resolver->resolve('a b'));
     }
 }

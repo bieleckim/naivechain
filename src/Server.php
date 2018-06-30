@@ -23,14 +23,15 @@ class Server
     private $socket;
 
     /**
-     * @var array
+     * @var QueryResolver
      */
-    private $peers = [];
+    private $queryResolver;
 
-    public function __construct(string $host, int $port)
+    public function __construct(string $host, int $port, QueryResolver $queryResolver)
     {
         $this->host = $host;
         $this->port = $port;
+        $this->queryResolver = $queryResolver;
     }
 
     public function run(): void
@@ -47,18 +48,8 @@ class Server
     private function handle(): void
     {
         $connection =  stream_socket_accept($this->socket);
-        $data = fread($connection, 1024);
-
-        if (strpos($data, 'ADD_PEER') === 0) {
-            list(, $peer) = explode(' ', $data);
-            $this->peers[] = $peer;
-            fwrite($connection, 'PEER_ADDED ' . $peer);
-        }
-
-        if (strpos($data, 'GET_PEERS') === 0) {
-            fwrite($connection, implode(' ', $this->peers));
-        }
-
+        $request = fread($connection, 1024);
+        fwrite($connection, $this->queryResolver->resolve($request));
         fclose($connection);
     }
 }

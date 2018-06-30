@@ -8,5 +8,5 @@ interface Query
 {
     public function getName(): string;
 
-    public function run(string $payload): void;
+    public function run(?string $payload): string;
 }
