@@ -23,12 +23,6 @@ class Server
     private $socket;
 
     /**
-     * @see stream_socket_accept
-     * @var resource
-     */
-    private $connection;
-
-    /**
      * @var array
      */
     private $peers = [];
@@ -44,9 +38,7 @@ class Server
         $this->socket = stream_socket_server('tcp://'. $this->host . ':' . $this->port);
 
         while (true) {
-            $this->connection = stream_socket_accept($this->socket);
             $this->handle();
-            fclose($this->connection);
         }
 
         fclose($this->socket);
@@ -54,16 +46,19 @@ class Server
 
     private function handle(): void
     {
-        $data = fread($this->connection, 1024);
+        $connection =  stream_socket_accept($this->socket);
+        $data = fread($connection, 1024);
 
         if (strpos($data, 'ADD_PEER') === 0) {
             list(, $peer) = explode(' ', $data);
             $this->peers[] = $peer;
-            fwrite($this->connection, 'PEER_ADDED ' . $peer);
+            fwrite($connection, 'PEER_ADDED ' . $peer);
         }
 
         if (strpos($data, 'GET_PEERS') === 0) {
-            fwrite($this->connection, implode(' ', $this->peers));
+            fwrite($connection, implode(' ', $this->peers));
         }
+
+        fclose($connection);
     }
 }
