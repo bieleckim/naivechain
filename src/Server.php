@@ -36,7 +36,7 @@ class Server
 
     public function run(): void
     {
-        $this->socket = stream_socket_server('tcp://'. $this->host . ':' . $this->port);
+        $this->socket = stream_socket_server('tcp://' . $this->host . ':' . $this->port);
 
         while (true) {
             $this->handle();
@@ -47,7 +47,7 @@ class Server
 
     private function handle(): void
     {
-        $connection =  stream_socket_accept($this->socket);
+        $connection = stream_socket_accept($this->socket);
         $request = fread($connection, 1024);
         fwrite($connection, $this->queryResolver->resolve($request));
         fclose($connection);
