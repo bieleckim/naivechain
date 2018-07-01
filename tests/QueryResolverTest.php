@@ -38,6 +38,9 @@ class QueryResolverTest extends TestCase
         $this->assertEquals($queryResponse, $resolver->resolve($queryName . ' ' . $queryPayload));
     }
 
+    /**
+     * @test
+     */
     public function shouldReturnUndefinedQueryWhenCanNotResolveQuery(): void
     {
         $resolver = new QueryResolver([]);
