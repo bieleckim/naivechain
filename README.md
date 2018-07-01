@@ -3,6 +3,7 @@
 Very simple blockchain implementation.
 
 [![Build Status](https://travis-ci.org/bieleckim/naivechain.svg?branch=master)](https://travis-ci.org/bieleckim/naivechain)
+[![codecov](https://codecov.io/gh/bieleckim/naivechain/branch/master/graph/badge.svg)](https://codecov.io/gh/bieleckim/naivechain)
 
 ## Installation
 ```sh
