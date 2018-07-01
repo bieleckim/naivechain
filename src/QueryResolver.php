@@ -18,7 +18,9 @@ class QueryResolver
 
     public function resolve(string $request): string
     {
-        list($queryName, $payload) = explode(' ', $request);
+        $requestParts = explode(' ', $request);
+        $queryName = $requestParts[0];
+        $payload = $requestParts[1] ?? '';
 
         foreach ($this->queries as $query) {
             if ($query->getName() === $queryName) {

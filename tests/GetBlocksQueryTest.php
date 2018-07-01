@@ -19,6 +19,6 @@ class GetBlocksQueryTest extends TestCase
         $blockChain = new BlockChain([$block]);
         $query = new GetBlocksQuery($blockChain);
 
-        $this->assertEquals($index, $query->run('GET_BLOCKS'));
+        $this->assertEquals($index, $query->run(''));
     }
 }
