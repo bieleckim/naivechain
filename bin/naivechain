@@ -1,11 +1,11 @@
 #!/usr/bin/env php
 <?php
 
-use Naivechain\AddPeerQuery;
+use Naivechain\Query\AddPeerQuery;
 use Naivechain\Block;
 use Naivechain\BlockChain;
-use Naivechain\GetBlocksQuery;
-use Naivechain\GetPeersQuery;
+use Naivechain\Query\GetBlocksQuery;
+use Naivechain\Query\GetPeersQuery;
 use Naivechain\PeersRepository;
 use Naivechain\QueryResolver;
 use Naivechain\Server;

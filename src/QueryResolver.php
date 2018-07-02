@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Naivechain;
 
+use Naivechain\Query\Query;
+
 class QueryResolver
 {
     /**

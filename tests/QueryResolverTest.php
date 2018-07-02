@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Naivechain\Tests;
 
-use Naivechain\Query;
+use Naivechain\Query\Query;
 use Naivechain\QueryResolver;
 use PHPUnit\Framework\TestCase;
 
