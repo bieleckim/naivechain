@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+declare(strict_types=1);
+
 use Naivechain\Query\AddPeerQuery;
 use Naivechain\Block;
 use Naivechain\BlockChain;
@@ -12,15 +14,23 @@ use Naivechain\Server;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$peersRepository = new PeersRepository();
+$port = $argv[1] ?? 1234;
+$peer = $argv[2] ?? false;
+
+$peers = [];
+if (false !== $peer) {
+    $peers[] = $peer;
+}
+
+$peersRepository = new PeersRepository($peers);
 
 $blockChain = new BlockChain([
-    new Block(0)
+    new Block(0, '', time(), '')
 ]);
 
 $server = new Server(
     '127.0.0.1',
-    1234,
+    $port,
     new QueryResolver([
         new GetPeersQuery($peersRepository),
         new AddPeerQuery($peersRepository),
@@ -28,4 +38,4 @@ $server = new Server(
     ])
 );
 
-$server->run();
+$server->run($peersRepository);

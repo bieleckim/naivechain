@@ -15,7 +15,7 @@ class BlockChainTest extends TestCase
      */
     public function canHaveChainWithBlocks(): void
     {
-        $block = new Block(0);
+        $block = new Block(0, '', time(), '');
         $chain = [$block];
 
         $blockChain = new BlockChain($chain);

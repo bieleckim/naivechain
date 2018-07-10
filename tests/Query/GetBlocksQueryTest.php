@@ -17,7 +17,7 @@ class GetBlocksQueryTest extends TestCase
     public function shouldReturnBlockIndex(): void
     {
         $index = 0;
-        $block = new Block($index);
+        $block = new Block($index, '', time(), '');
         $blockChain = new BlockChain([$block]);
         $query = new GetBlocksQuery($blockChain);
 

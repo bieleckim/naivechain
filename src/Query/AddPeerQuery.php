@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Naivechain\Query;
 
+use Naivechain\Peer;
 use Naivechain\PeersRepository;
 
 class AddPeerQuery implements Query
@@ -25,7 +26,10 @@ class AddPeerQuery implements Query
 
     public function run(?string $peer): string
     {
-        $this->peersRepository->add($peer);
+        $this->peersRepository->add(
+            new Peer($peer)
+        );
+
         return 'PEER_ADDED ' . $peer;
     }
 }

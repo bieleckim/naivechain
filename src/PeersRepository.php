@@ -6,9 +6,17 @@ namespace Naivechain;
 
 class PeersRepository
 {
+    /**
+     * @var Peer[]
+     */
     private $peers = [];
 
-    public function add(string $peer): void
+    public function __construct(array $peers = [])
+    {
+        $this->peers = $peers;
+    }
+
+    public function add(Peer $peer): void
     {
         $this->peers[] = $peer;
     }

@@ -34,7 +34,7 @@ class Server
         $this->queryResolver = $queryResolver;
     }
 
-    public function run(): void
+    public function run(PeersRepository $peersRepository): void
     {
         $this->socket = stream_socket_server('tcp://' . $this->host . ':' . $this->port);
 
