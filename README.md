@@ -15,7 +15,7 @@ composer install
 # run server in background on 127.0.0.1:1234 (default)
 ./bin/naivechain
 
-# another one with 1235 port and 127.0.0.1:1234 peer
+# another one with 1235 port and 127.0.0.1:1234 peer address
 ./bin/naivechain 1235 127.0.0.1:1234
 
 # run tests
